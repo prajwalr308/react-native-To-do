@@ -1,5 +1,6 @@
 import { View, Text, TextInput, StyleSheet, Button } from 'react-native'
 import React, { useState } from 'react'
+import colors from '../../utils/colors'
 
 const AddTodo = ({onAdd}) => {
     const [text, setText] = useState("")
@@ -20,7 +21,7 @@ const styles = StyleSheet.create({
     },
     buttonContainer: {
         marginVertical: 20,
-        backgroundColor: "#72FFA7",
+        backgroundColor: colors.primary
     },
     textInput: {
         borderWidth: 1,

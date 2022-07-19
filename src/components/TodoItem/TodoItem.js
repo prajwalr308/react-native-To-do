@@ -9,9 +9,10 @@ import {
   TextInput,
 } from "react-native";
 import React, { useRef, useState } from "react";
+import colors from "../../utils/colors";
 
-const TodoItem = ({ item, onDelete, onEdit }) => {
-  const [isEdit, setIsEdit] = useState(true);
+const TodoItem = ({ item, onDelete, onEdit,onComplete }) => {
+  const [isCompleted, setIsCompleted] = useState(true);
   const [text, setText] = useState(item.title);
   const onChangeTextHandler = (text) => {
     setText(text);
@@ -21,7 +22,9 @@ const TodoItem = ({ item, onDelete, onEdit }) => {
   return (
     <View style={[styles.card, styles.shadowProp]}>
      
-      
+      {item.completed ? (
+        <Text style={styles.text}> {item.title}</Text>
+      ):
           <TextInput
             style={styles.textInput}
             placeholder={text}
@@ -29,16 +32,15 @@ const TodoItem = ({ item, onDelete, onEdit }) => {
             onChangeText={(val) => onChangeTextHandler(val)}
             ref={ref_input}
 
-          />
+          />}
          
         
      
       <View style={styles.actions}>
-     {/* { !isEdit&&<TouchableOpacity
+    {isCompleted? <TouchableOpacity
             onPress={() => {
-              onEdit(id, text);
-              setIsEdit(true);
-            
+              onComplete(item.id)
+            setIsCompleted(!isCompleted)
             }}
            
           >
@@ -46,7 +48,20 @@ const TodoItem = ({ item, onDelete, onEdit }) => {
               source={require("../../assets/check.png")}
               style={styles.deleteIcon}
             />
-          </TouchableOpacity>} */}
+          </TouchableOpacity>:
+           <TouchableOpacity
+           onPress={() => {
+            onComplete(item.id)
+          setIsCompleted(!isCompleted)
+          }}
+          
+         >
+           <Image
+             source={require("../../assets/close.png")}
+             style={styles.deleteIcon}
+           />
+         </TouchableOpacity>
+          }
         <TouchableOpacity onPress={() =>{ setIsEdit(false)
         if(ref_input.current){
           ref_input.current.focus();
@@ -100,6 +115,11 @@ const styles = StyleSheet.create({
     
     alignItems: "center",
   },
+  text: {
+    textDecorationLine: "line-through",
+    textDecorationColor: "red",
+    color :colors.primary
+  }
 });
 
 export default TodoItem;

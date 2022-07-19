@@ -2,7 +2,7 @@ import { View, Text, FlatList, StyleSheet, ScrollView } from "react-native";
 import React, { useState } from "react";
 import TodoItem from "../TodoItem/TodoItem";
 import AddTodo from "../AddTodo/AddTodo";
-
+import colors from "../../utils/colors";
 const TodoList = () => {
   const [list, setList] = useState([]);
   const onDelete = (id) => {
@@ -37,7 +37,7 @@ const TodoList = () => {
           keyExtractor={(item) => item.id}
           data={list}
           renderItem={({ item }) => (
-            <TodoItem onEdit={onEdit} onDelete={onDelete} item={item} />
+            <TodoItem onEdit={onEdit} onComplete={onComplete} onDelete={onDelete} item={item} />
           )}
         />
       </View>
