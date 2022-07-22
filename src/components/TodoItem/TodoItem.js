@@ -11,64 +11,61 @@ import {
 import React, { useRef, useState } from "react";
 import colors from "../../utils/colors";
 
-const TodoItem = ({ item, onDelete, onEdit,onComplete }) => {
+const TodoItem = ({ item, onDelete, onEdit, onComplete }) => {
   const [isCompleted, setIsCompleted] = useState(true);
   const [text, setText] = useState(item.title);
-  const onChangeTextHandler = (text) => {
+  const onChangeTextHandler = (text,id) => {
     setText(text);
     onEdit(id, text);
   };
   const ref_input = useRef(null);
   return (
     <View style={[styles.card, styles.shadowProp]}>
-     
       {item.completed ? (
         <Text style={styles.text}> {item.title}</Text>
-      ):
-          <TextInput
-            style={styles.textInput}
-            placeholder={text}
-            value={text}
-            onChangeText={(val) => onChangeTextHandler(val)}
-            ref={ref_input}
+      ) : (
+        <TextInput
+          style={styles.textInput}
+          placeholder={text}
+          value={text}
+          onChangeText={(val) => onChangeTextHandler(val,item.id)}
+          ref={ref_input}
+        />
+      )}
 
-          />}
-         
-        
-     
       <View style={styles.actions}>
-    {isCompleted? <TouchableOpacity
+        {isCompleted ? (
+          <TouchableOpacity
             onPress={() => {
-              onComplete(item.id)
-            setIsCompleted(!isCompleted)
+              onComplete(item.id);
+              setIsCompleted(!isCompleted);
             }}
-           
           >
             <Image
               source={require("../../assets/check.png")}
               style={styles.deleteIcon}
             />
-          </TouchableOpacity>:
-           <TouchableOpacity
-           onPress={() => {
-            onComplete(item.id)
-          setIsCompleted(!isCompleted)
+          </TouchableOpacity>
+        ) : (
+          <TouchableOpacity
+            onPress={() => {
+              onComplete(item.id);
+              setIsCompleted(!isCompleted);
+            }}
+          >
+            <Image
+              source={require("../../assets/close.png")}
+              style={styles.deleteIcon}
+            />
+          </TouchableOpacity>
+        )}
+        <TouchableOpacity
+          onPress={() => {
+            if (ref_input.current) {
+              ref_input.current.focus();
+            }
           }}
-          
-         >
-           <Image
-             source={require("../../assets/close.png")}
-             style={styles.deleteIcon}
-           />
-         </TouchableOpacity>
-          }
-        <TouchableOpacity onPress={() =>{ setIsEdit(false)
-        if(ref_input.current){
-          ref_input.current.focus();
-        }
-        
-        }}
-       >
+        >
           <Image
             source={require("../../assets/edit.png")}
             style={styles.deleteIcon}
@@ -88,7 +85,6 @@ const TodoItem = ({ item, onDelete, onEdit,onComplete }) => {
 };
 const styles = StyleSheet.create({
   card: {
-    
     flexDirection: "row",
     justifyContent: "space-between",
     backgroundColor: "white",
@@ -110,16 +106,14 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
   actions: {
-   
-   flexDirection: "row",
-    
+    flexDirection: "row",
     alignItems: "center",
   },
   text: {
     textDecorationLine: "line-through",
     textDecorationColor: "red",
-    color :colors.primary
-  }
+    color: colors.primary,
+  },
 });
 
 export default TodoItem;

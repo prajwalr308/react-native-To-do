@@ -10,8 +10,8 @@ const AddTodo = ({onAdd}) => {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>AddTodo</Text>
-      <TextInput style={styles.textInput} placeholder='Enter a Task' onChangeText={(val)=>onChangeTextHandler(val)} />
-      <Button color={"#7BF0A7"} title='Add Todo' onPress={()=>onAdd(text)} />
+      <TextInput style={styles.textInput}  placeholder='Enter a Task' onChangeText={(val)=>onChangeTextHandler(val)} />
+      <Button color={colors.primary} style={styles.buttonContainer} title='Add Todo' onPress={()=>onAdd(text)} />
     </View>
   )
 }

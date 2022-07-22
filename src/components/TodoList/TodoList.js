@@ -1,4 +1,11 @@
-import { View, Text, FlatList, StyleSheet, ScrollView } from "react-native";
+import {
+  View,
+  Text,
+  FlatList,
+  StyleSheet,
+  ScrollView,
+  Alert,
+} from "react-native";
 import React, { useState } from "react";
 import TodoItem from "../TodoItem/TodoItem";
 import AddTodo from "../AddTodo/AddTodo";
@@ -9,10 +16,21 @@ const TodoList = () => {
     setList((list) => list.filter((item) => item.id !== id));
   };
   const onAdd = (title) => {
-    setList((list) => [
-      { title, completed: false, id: list.length + 1 },
-      ...list,
-    ]);
+    if (title.length > 3) {
+      setList((list) => [
+        { title, completed: false, id: list.length + 1 },
+        ...list,
+      ]);
+    } else {
+      Alert.alert("oops", "Please enter a valid task", [
+        {
+          text: "ok",
+          onPress: () => {
+            console.log("alert closed");
+          },
+        },
+      ]);
+    }
   };
   const onEdit = (id, title) => {
     setList((list) =>
@@ -37,7 +55,12 @@ const TodoList = () => {
           keyExtractor={(item) => item.id}
           data={list}
           renderItem={({ item }) => (
-            <TodoItem onEdit={onEdit} onComplete={onComplete} onDelete={onDelete} item={item} />
+            <TodoItem
+              onEdit={onEdit}
+              onComplete={onComplete}
+              onDelete={onDelete}
+              item={item}
+            />
           )}
         />
       </View>
@@ -51,7 +74,6 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-
     marginHorizontal: 10,
   },
 });
